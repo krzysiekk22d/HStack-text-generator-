@@ -59,22 +59,23 @@ struct HStacksContainer: View {
             }
         }
         
-        for word in words {
+        for (index, word) in words.enumerated() {
             let wordWidth = word.width(withConstrainedHeight: 1000, font: .systemFont(ofSize: 18)) // Assuming font size 18
             
-            if wordWidth > remainingWidth {
-                currentLineIndex += 1
-                lines.append([word])
-                remainingWidth = UIScreen.main.bounds.width - wordWidth - 50
-            } else {
+            if index == 0 {
                 lines[currentLineIndex].append(word)
                 remainingWidth -= wordWidth
+            } else {
+                if wordWidth > remainingWidth {
+                    currentLineIndex += 1
+                    lines.append([word])
+                    remainingWidth = UIScreen.main.bounds.width - wordWidth - 50
+                } else {
+                    lines[currentLineIndex].append(word)
+                    remainingWidth -= wordWidth
+                }
             }
         }
-        
-        print("lines: \(lines)")
-//        print("screen: \(UIScreen.main.bounds.maxX)")
-        // napis się psuje jak się ekran odwraca
         return lines
     }
 }
